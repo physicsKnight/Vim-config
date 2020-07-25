@@ -10,6 +10,7 @@ Plug 'vim-syntastic/syntastic'
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'rafi/awesome-vim-colorschemes'
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'ervandew/supertab'
 
 call plug#end()
@@ -42,13 +43,14 @@ au BufNewFile,BufRead *.py,*.java,*.cpp,*.c,*.rkt,*.h
     \ set expandtab |
     \ set autoindent |
     \ set fileformat=unix | 
+
 set encoding=utf-8
 
 syntax on
 
 " air-line
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'purify'
+let g:airline_theme = 'nord'
 let g:airline#extensions#tabline#enabled = 1
 
 if !exists('g:airline_symbols')
@@ -78,13 +80,25 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
+highlight Comment cterm=italic gui=italic
+
 set laststatus=2
 " set showtabline=2
-set t_Co=256
-set termguicolors
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+" true colours
 set background=dark
-colorscheme purify
+set t_Co=256
+
+if (has("nvim"))
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+
+if (has("termguicolors"))
+  set termguicolors
+endif
+
+colorscheme nord
+let g:palenight_terminal_italics=1
 
 set nu rnu
 set clipboard=unnamed
