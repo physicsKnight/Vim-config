@@ -123,5 +123,6 @@ nnoremap // :noh<return>
 
 " run code
 nnoremap \ :te<enter>
-nnoremap <f5> <esc>:w<enter>:!python3 %<enter>
-nnoremap <f6> <esc>:w<enter>:!g++ -std=c++11 %<enter>
+autocmd filetype python nnoremap <f5> :w <bar> :!python3 % <cr>
+autocmd filetype cpp nnoremap <f5> :w <bar> !g++ -std=c++11 % -o %:r && ./%:r <cr>
+autocmd filetype c nnoremap <f5> :w <bar> !make %:r && ./%:r <cr>
