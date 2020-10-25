@@ -121,9 +121,12 @@ set hlsearch "highlights matching searcher
 " clears highlights
 nnoremap // :noh<return> 
 
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = ' -std=c++11'
+
 " run code
 nnoremap \ :te<enter>
 autocmd filetype python nnoremap <f5> :w <bar> :!python3 % <cr>
-autocmd filetype cpp nnoremap <f5> :w <bar> !g++ -std=c++11 % -o %:r && ./%:r <cr>
+autocmd filetype cpp nnoremap <f5> :w <bar> !g++ -std=c++11 % <cr> :vnew <cr> :te exec "./a.out" <cr><cr>
 autocmd filetype c nnoremap <f5> :w <bar> !make %:r && ./%:r <cr>
 autocmd filetype java nnoremap <f5> :w <bar> !javac % && java %:r <cr>
