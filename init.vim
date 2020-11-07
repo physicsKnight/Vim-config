@@ -10,10 +10,15 @@ Plug 'vim-syntastic/syntastic'
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'rafi/awesome-vim-colorschemes'
-Plug 'drewtempelmeyer/palenight.vim'
 Plug 'ervandew/supertab'
+Plug 'preservim/nerdcommenter'
+Plug 'SirVer/ultisnips'
 
 call plug#end()
+
+let mapleader = "-"
+let maplocalleader = "\\"
+
 
 "split navigations
 nnoremap <C-J> <C-W><C-J>
@@ -45,7 +50,6 @@ au BufNewFile,BufRead *.py,*.java,*.cpp,*.c,*.rkt,*.h
     \ set fileformat=unix | 
 
 set encoding=utf-8
-
 syntax on
 
 " air-line
@@ -80,13 +84,7 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
-highlight Comment cterm=italic gui=italic
-
-set laststatus=2
-" set showtabline=2
-
-" true colours
-set background=dark
+" colours
 set t_Co=256
 
 if (has("nvim"))
@@ -97,11 +95,14 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-colorscheme nord
-let g:palenight_terminal_italics=1
+colorscheme jellybeans
+highlight Comment cterm=italic gui=italic
+let g:jellybeans_use_term_italics = 1
+" colours
 
-set nu rnu
-set clipboard=unnamed
+set nu rnu " relative line numbering
+set clipboard=unnamed " public copy/paste register
+set laststatus=2 " show status bar
 set ruler
 set showcmd
 set noswapfile
@@ -118,6 +119,7 @@ set lazyredraw "redraws the screne when it needs to
 set showmatch "highlights matching brackets
 set incsearch "search as characters are entered
 set hlsearch "highlights matching searcher
+
 " clears highlights
 nnoremap // :noh<return> 
 
@@ -125,8 +127,11 @@ let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_compiler_options = ' -std=c++11'
 
 " run code
-nnoremap \ :te<enter>
-autocmd filetype python nnoremap <f5> :w <bar> :!python3 % <cr>
-autocmd filetype cpp nnoremap <f5> :w <bar> !g++ -std=c++11 % <cr> :vnew <bar> :te exec "./a.out" <cr><cr>
-autocmd filetype c nnoremap <f5> :w <bar> !make %:r && ./%:r <cr>
-autocmd filetype java nnoremap <f5> :w <bar> !javac % && java %:r <cr>
+augroup compileandrun
+    autocmd!
+    autocmd filetype python nnoremap <f5> :w <bar> :!python3 % <cr>
+    autocmd filetype cpp nnoremap <f5> :w <bar> !g++ -std=c++11 % <cr> :vnew <bar> :te exec "./a.out" <cr><cr>
+    autocmd filetype cpp nnoremap <f6> :vnew <bar> :te exec "./a.out" <cr>
+    autocmd filetype c nnoremap <f5> :w <bar> !make %:r && ./%:r <cr>
+    autocmd filetype java nnoremap <f5> :w <bar> !javac % && java %:r <cr>
+augroup END
