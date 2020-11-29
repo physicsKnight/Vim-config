@@ -1,7 +1,7 @@
 call plug#begin(stdpath('data'))
 
-Plug 'preservim/nerdtree'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround'
 Plug 'Raimondi/delimitMate'
@@ -10,15 +10,17 @@ Plug 'vim-syntastic/syntastic'
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'rafi/awesome-vim-colorschemes'
-Plug 'ervandew/supertab'
 Plug 'preservim/nerdcommenter'
+Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 call plug#end()
 
+filetype plugin on
+
 let mapleader = "-"
 let maplocalleader = "\\"
-
 
 "split navigations
 nnoremap <C-J> <C-W><C-J>
@@ -29,32 +31,31 @@ nnoremap <C-H> <C-W><C-H>
 set splitbelow
 set splitright
 
-" NerdTree stuff
-"autocmd vimenter * NERDTree
-map <C-n> :NERDTreeToggle<CR>
-let g:NERDTreeWinPos = "right"
-
 " Enable folding
 set foldmethod=indent
 set foldlevel=99
 "Enable folding with the spacebar
 nnoremap <space> za
 
-au BufNewFile,BufRead *.py,*.java,*.cpp,*.c,*.rkt,*.h
+" open files with ctrl-p
+nnoremap <c-p> :Files<cr>
+
+au BufNewFile,BufRead *.py,*.java,*.cpp,*.c,*.cs,*.rkt,*.h,*.html
     \ set tabstop=4 |
     \ set softtabstop=4 |
     \ set shiftwidth=4 |
     \ set textwidth=120 |
     \ set expandtab |
     \ set autoindent |
-    \ set fileformat=unix | 
+    \ set fileformat=unix |
 
 set encoding=utf-8
+
 syntax on
 
 " air-line
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'nord'
+let g:airline_theme = 'jellybeans'
 let g:airline#extensions#tabline#enabled = 1
 
 if !exists('g:airline_symbols')
@@ -84,7 +85,13 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
-" colours
+highlight Comment cterm=italic gui=italic
+
+set laststatus=2
+" set showtabline=2
+
+" true colours
+set background=dark
 set t_Co=256
 
 if (has("nvim"))
@@ -96,17 +103,14 @@ if (has("termguicolors"))
 endif
 
 colorscheme jellybeans
-highlight Comment cterm=italic gui=italic
-let g:jellybeans_use_term_italics = 1
-" colours
 
 set nu rnu " relative line numbering
 set clipboard=unnamed " public copy/paste register
-set laststatus=2 " show status bar
 set ruler
 set showcmd
-set noswapfile
+set noswapfile " doesn't create swap files
 set noshowmode
+set shortmess+=c
 set omnifunc=syntaxcomplete#Complete
 
 set backspace=indent,eol,start " let backspace delete over lines
@@ -118,13 +122,24 @@ set wildmenu "graphical auto complete menu
 set lazyredraw "redraws the screne when it needs to
 set showmatch "highlights matching brackets
 set incsearch "search as characters are entered
-set hlsearch "highlights matching searcher
+set hlsearch "highlights matching searches
 
-" clears highlights
-nnoremap // :noh<return> 
+"clears highlights
+nnoremap // :noh<return>
+" moves current line down or up
+nnoremap <leader>- ddp
+nnoremap <leader>_ ddkP
+" open vimrc in vertical split
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+" update changes into current buffer
+nnoremap <leader>sv :source $MYVIMRC<cr>
+" enable or disable line wrapping in current buffer
+nnoremap <buffer> <localleader>w :set wrap!<cr>
 
+" c++11 support in syntastic
 let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_compiler_options = ' -std=c++11'
+
 
 " run code
 augroup compileandrun
