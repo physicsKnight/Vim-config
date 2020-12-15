@@ -12,8 +12,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'preservim/nerdcommenter'
 Plug 'ervandew/supertab'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
 
 call plug#end()
 
@@ -145,8 +143,8 @@ let g:syntastic_cpp_compiler_options = ' -std=c++11'
 augroup compileandrun
     autocmd!
     autocmd filetype python nnoremap <f5> :w <bar> :!python3 % <cr>
-    autocmd filetype cpp nnoremap <f5> :w <bar> !g++ -std=c++11 % <cr> :vnew <bar> :te exec "./a.out" <cr><cr>
-    autocmd filetype cpp nnoremap <f6> :vnew <bar> :te exec "./a.out" <cr>
+    autocmd filetype cpp nnoremap <f5> :w <bar> !g++ -std=c++11 % <cr> :vnew <bar> :te "a.exe" <cr><cr>
+    autocmd filetype cpp nnoremap <f6> :vnew <bar> :te "a.exe" <cr>
     autocmd filetype c nnoremap <f5> :w <bar> !make %:r && ./%:r <cr>
     autocmd filetype java nnoremap <f5> :w <bar> !javac % && java %:r <cr>
 augroup END
